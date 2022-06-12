@@ -93,7 +93,6 @@
 ### Built With
 
 * [Django](https://www.djangoproject.com/)
-* [Neo4j](https://neo4j.com/)
 * [PostgreSQL](https://www.postgresql.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -149,9 +148,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 ## Roadmap
 
 - [ ] Display Task
-- [ ] Display Log
 - [ ] Insert new Task
-- [ ] Insert new Log
+- [ ] Insert new Incident Log
 <!-- - [ ] Feature 2
 - [ ] Feature 3
     - [ ] Nested Feature -->
@@ -203,12 +201,12 @@ Project Link: [https://github.com/](https://github.com/)
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* [](Amirsaman)
-* [](Taofiq)
-* [](Jun Wai)
-* [](Sarah)
-* [](Netiya)
-* [](Ahmad Faizal)
+* [Amirsaman Ahmadi]
+* [Bakare Taofiq]
+* [Jun Wai]
+* [Sarah Toong]
+* [Netiya Rahul]
+* [Ahmad Faizal]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
