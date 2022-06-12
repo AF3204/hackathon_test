@@ -1,0 +1,297 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="content">
+		<div class="panel-header bg-primary-gradient">
+			<div class="page-inner py-5">
+				<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+					<div>
+						<h2 class="text-white pb-2 fw-bold">Dashboard</h2>
+						<h5 class="text-white op-7 mb-2">Free Bootstrap 4 Admin Dashboard</h5>
+					</div>
+					<div class="ml-md-auto py-2 py-md-0">
+						<a href="#" class="btn btn-white btn-border btn-round mr-2">Manage</a>
+						<a href="#" class="btn btn-secondary btn-round">Add Customer</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="page-inner mt--5">
+			<div class="row mt--2">
+				<div class="col-md-6">
+					<div class="card full-height">
+						<div class="card-body">
+							<div class="card-title">Overall task statistics</div>
+							<div class="card-category">Daily information about statistics</div>
+							<div class="d-flex flex-wrap justify-content-around pb-2 pt-4">
+								<div class="px-2 pb-2 pb-md-0 text-center">
+									{{ stats.incident |json_script:"incident_val" }}
+									<div id="circles-1"></div>
+									<h6 class="fw-bold mt-3 mb-0">Incidents</h6>
+								</div>
+								<div class="px-2 pb-2 pb-md-0 text-center">
+									<div id="circles-2"></div>
+									{{ stats.activity |json_script:"activity_val" }}
+									<h6 class="fw-bold mt-3 mb-0">Activities</h6>
+								</div>
+								<div class="px-2 pb-2 pb-md-0 text-center">
+									<div id="circles-3"></div>
+									{{ stats.handover | json_script:"handover_val" }}
+									<h6 class="fw-bold mt-3 mb-0">Handovers</h6>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card full-height">
+						<div class="card-body">
+							<div class="card-title">Total Tasks statistics Over the Week</div>
+							{{ daily_chrt | json_script:"daily_chrt"}}
+							<div class="row py-3">
+								<div class="col-md-4 d-flex flex-column justify-content-around">
+									<div>
+										<h6 class="fw-bold text-uppercase text-success op-8">Total Completed</h6>
+										<h3 class="fw-bold"> {{ ttl_complete.completed }} </h3>
+									</div>
+									<div>
+										<h6 class="fw-bold text-uppercase text-danger op-8">Total Outstanding</h6>
+										<h3 class="fw-bold"> {{ ttl_complete.outstanding }}</h3>
+									</div>
+								</div>
+								<div class="col-md-8">
+									<div id="chart-container">
+										<canvas id="totalIncomeChart"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row row-card-no-pd">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-head-row card-tools-still-right">
+								<h4 class="card-title">My Pending Tasks
+									<p class="card-category">
+										Your top priority tasks come first</p>
+								</h4>
+								
+							</div>
+						</div>
+						<div class="card-body">
+							
+							<div class="card-sub">
+								Tasks that are nearing <code class="highlighter-rouge">deadline</code>
+							</div>
+							<div class="table-responsive">
+								
+								<table class="table table-bordered" aria-describedby="table-bordered">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">Task Name</th>
+											<th scope="col">Type</th>
+											<th scope="col">Shift</th>
+											<th scope="col">Location</th>
+											<th scope="col">Mill</th>
+											<th scope="col">Due Date</th>
+											<th scope="col">Priority</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										{% for task in mytasks %}
+										<tr>
+											<th scope="row">{{forloop.counter}}</th>
+											<td>{{task.task}}</td>
+											<td>{{task.type}}</td>
+											<td>{{task.shift}}</td>
+											<td>{{task.location}}</td>
+											<td>{{task.mill}}</td>
+											<td>{{task.due_date}}</td>
+											<td>{{task.priority_level}}</td>
+										</tr>
+										{% endfor%}
+									</tbody>
+									
+								</table>
+								
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+	<script>
+		var incident_val = JSON.parse(document.getElementById('incident_val').textContent);
+		Circles.create({
+			id:'circles-1',
+			radius:45,
+			value:incident_val,
+			maxValue:100,
+			width:7,
+			text: String(incident_val),
+			colors:['#f1f1f1', '#FF9E27'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		
+		var activity_val = JSON.parse(document.getElementById('activity_val').textContent);
+
+		Circles.create({
+			id:'circles-2',
+			radius:45,
+			value:activity_val,
+			maxValue:100,
+			width:7,
+			text:  String(activity_val),
+			colors:['#f1f1f1', '#2BB930'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		var handover_val = JSON.parse(document.getElementById('handover_val').textContent);
+
+
+		Circles.create({
+			id:'circles-3',
+			radius:45,
+			value:handover_val,
+			maxValue:100,
+			width:7,
+			text: String(handover_val),
+			colors:['#f1f1f1', '#F25961'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
+		var daily_chrt = JSON.parse(document.getElementById('daily_chrt').textContent)
+		
+		var mytotalIncomeChart = new Chart(totalIncomeChart, {
+			type: 'bar',
+			data: {
+				labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+				datasets : [{
+					label: "Total Tasks",
+					backgroundColor: '#ff9e27',
+					borderColor: 'rgb(23, 125, 255)',
+					data: daily_chrt,
+				}],
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					display: false,
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							display: false //this will remove only the label
+						},
+						gridLines : {
+							drawBorder: false,
+							display : false
+						}
+					}],
+					xAxes : [ {
+						gridLines : {
+							drawBorder: false,
+							display : false
+						}
+					}]
+				},
+			}
+		});
+
+		$('#lineChart').sparkline([105,103,123,100,95,105,115], {
+			type: 'line',
+			height: '70',
+			width: '100%',
+			lineWidth: '2',
+			lineColor: '#ffa534',
+			fillColor: 'rgba(255, 165, 52, .14)'
+		});
+
+		
+		var multipleBarChart = multipleBarChart = document.getElementById('multipleBarChart').getContext('2d');
+		var myMultipleBarChart = new Chart(multipleBarChart, {
+		type: 'bar',
+		data: {
+			labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			datasets: [{
+				label: "Activities",
+				backgroundColor: '#59d05d',
+				borderColor: '#59d05d',
+				data: [95, 100, 112, 101, 144, 159, 178, 156, 188, 190, 210, 245],
+			}, {
+				label: "Incidents",
+				backgroundColor: '#fdaf4b',
+				borderColor: '#fdaf4b',
+				data: [145, 256, 244, 233, 210, 279, 287, 253, 287, 299, 312, 356],
+			}, {
+				label: "Handovers",
+				backgroundColor: '#177dff',
+				borderColor: '#177dff',
+				data: [185, 279, 273, 287, 234, 312, 322, 286, 301, 320, 346, 399],
+			}],
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			legend: {
+				position: 'bottom'
+			},
+			title: {
+				display: true,
+				text: 'Task Stats'
+			},
+			tooltips: {
+				mode: 'index',
+				intersect: false
+			},
+			responsive: true,
+			scales: {
+				xAxes: [{
+					stacked: true,
+				}],
+				yAxes: [{
+					stacked: true
+				}]
+			}
+		}
+	});
+	</script>
+
+{% endblock javascripts %}

@@ -1,0 +1,123 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Unassigned Task {% endblock %}
+
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<!-- Tempus Dominus Styles -->
+<link href="
+https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/css/tempus-dominus.css" rel="stylesheet" />
+
+<style>
+	.task-box {
+		padding: 20px !important;
+		font-weight: bold;
+	}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="content">
+	<div class="page-inner">
+		<div class="page-header">
+			<h4 class="page-title">Unassigned Task</h4>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="basic-datatables" aria-describedby="basic-datatables" class="display table table-striped table-hover">
+								<thead>
+									<tr>
+										<th scope="col">Incident / Task Name</th>
+										<th scope="col">Date</th>
+										<th scope="col">Priority Level</th>
+										<th scope="col">Mill</th>
+										<th scope="col">Task type</th>
+										<th scope="col">Assign PIC</th>
+										<th scope="col">Task Details</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th scope="col">Incident / Task Name</th>
+										<th scope="col">Date</th>
+										<th scope="col">Priority Level</th>
+										<th scope="col">Mill</th>
+										<th scope="col">Task type</th>
+										<th scope="col">Assign PIC</th>
+										<th scope="col">Task Details</th>
+									</tr>
+								</tfoot>
+								<tbody>
+
+
+
+									{% for row in unassignedTasks %}
+									<tr>
+										<td>{{row.task}}</td>
+
+										{% if row.type == "Incident" %}
+										<td>{{row.time_incident |date:'Y-m-d H:i'}}</td>
+										{% else %}
+										<td>{{row.created_date |date:'Y-m-d H:i'}}</td>
+
+										{% endif %}
+
+										<td>{{row.priority_level}}</td>
+										<td>{{row.mill}}</td>
+										<td>{{row.type}}</td>
+										<td>
+											<button class="btn btn-primary updateBtn" onclick='window.open("/assigneeForm/"+"{{row.id}}", "Assignee Form", "width=400,height=400")'; value="{{row.id}}">
+												Update
+											</button>
+
+										</td>
+										<td>
+											<button class="btn btn-primary detailsBtn" value="{{row.id}}">
+												Details
+											</button>
+
+										</td>
+									</tr>
+									{% endfor%}
+
+								</tbody>
+							</table>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% endblock content %}
+
+	<!-- Specific Page JS goes HERE  -->
+	{% block javascripts %}
+
+	<!-- Atlantis DEMO methods, don't include it in your project! -->
+	<script src="/static/assets/js/setting-demo2.js"></script>
+
+	<script>
+		$(document).ready(function () {
+
+			$('#basic-datatables').DataTable({
+				filter: 'lBft'
+			});
+			$('.updateBtn').each(function (index, elem) {
+				$(elem).click(function () {
+					$(this).parent().parent().remove()
+
+					
+				})
+			})
+		})
+
+
+
+	</script>
+	{% endblock javascripts %}

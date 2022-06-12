@@ -1,0 +1,223 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Incident Forms {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<!-- Tempus Dominus Styles -->
+<link
+href="
+https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/css/tempus-dominus.css"
+rel="stylesheet"
+/>
+{% endblock stylesheets %}
+{% block content %}
+
+<div class="content">
+	<div class="page-inner">
+		<div class="page-header">
+			<h4 class="page-title">Incidents Logging</h4>
+			{% comment %} <ul class="breadcrumbs">
+				<li class="nav-home">
+					<a href="#">
+						<em class="flaticon-home"></em>
+					</a>
+				</li>
+				<li class="separator">
+					<em class="flaticon-right-arrow"></em>
+				</li>
+				<li class="nav-item">
+					<a href="#">Forms</a>
+				</li>
+				<li class="separator">
+					<em class="flaticon-right-arrow"></em>
+				</li>
+				<li class="nav-item">
+					<a href="#">Basic Form</a>
+				</li>
+			</ul> {% endcomment %}
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<form method="POST" action="" id='taskForm'  enctype="multipart/form-data">
+						<div class="card-header">
+							<div class="card-title">Incident Forms</div>
+						</div>
+						<div class="card-body">
+							{% csrf_token %}
+							{% comment %} {{taskForm}} {% endcomment %}
+							
+							<div class="row">
+								{{ taskForm.non_field_errors }}
+								<div class="form-group col-md-6">
+									<label>{{taskForm.task.label}} </label>
+									{{taskForm.task}}
+									<div class="invalid-feedback">
+										{{taskForm.task.error}}
+									</div>
+
+									
+				
+								</div>
+								<div class="form-group col-md-6">
+									<label>{{taskForm.type.label}} </label>
+									{{taskForm.type}}
+									<div class="invalid-feedback">
+									
+									</div>
+								</div>
+								
+							</div>
+							<div class="row">
+								{{ taskForm.non_field_errors }}
+								<div class="form-group col-md-6 incidentBox">
+									<label>{{taskForm.time_incident.label}} </label>
+									<div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+										{{ taskForm.time_incident }}
+										<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+										  <div class="input-group-text"><em class="fa fa-calendar"></em></div>
+										</div>
+									</div>
+
+
+									
+				
+								</div>
+								<div class="form-group col-md-6 shiftBox">
+									<label>{{taskForm.shift.label}} </label>
+									{{ taskForm.shift }}
+
+
+									
+				
+								</div>
+								<div class="form-group col-md-6">
+									<label>{{taskForm.mill.label}} </label>
+									{{taskForm.mill}}
+									<div class="invalid-feedback">
+									
+									</div>
+								</div>
+								
+							</div>
+							<div class="row">
+								{{ taskForm.non_field_errors }}
+								<div class="form-group col-md-6">
+									<label>{{taskForm.location.label}} </label>
+									{{taskForm.location}}
+									<div class="invalid-feedback">
+										{{taskForm.location.error}}
+									</div>
+								</div>
+								<div class="form-group col-md-6">
+									<label>{{taskForm.priority_level.label}} </label>
+									{{taskForm.priority_level}}
+									<div class="invalid-feedback">
+										{{taskForm.priorityLevel.error}}
+									</div>
+								</div>
+								
+							</div>
+							<div class="form-group px-0">
+								<label>{{taskForm.remarks.label}} </label>
+								{{taskForm.remarks}}
+								<div class="invalid-feedback">
+								
+								</div>
+							</div>
+							<div class="form-group px-0">
+								<label>{{taskForm.photo.label}} </label>
+								{{taskForm.photo}}
+								<div class="invalid-feedback">
+								
+								</div>
+							</div>
+							
+						</div>
+						<button class="btn btn-success mb-4 mr-4 submitBtn" style="float:right" type="submit">Submit</button>
+
+						<!-- <button type="submit" form="form1" value="Submit">Submit</button> -->
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+{% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha256-98vAGjEDGN79TjHkYWVD4s87rvWkdWLHPs5MC3FvFX4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha256-xaF9RpdtRxzwYMWg4ldJoyPWqyDPCRD0Cv7YEEe6Ie8=" crossorigin="anonymous"></script> {% endcomment %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"  crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data-2012-2022.min.js"  crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+<!-- Atlantis DEMO methods, don't include it in your project! -->
+<script src="/static/assets/js/setting-demo2.js"></script>
+<script>
+
+$(document).ready(function () {
+
+
+	$('#datetimepicker1').datetimepicker({
+		format:'DD/MM/YYYY HH:mm',
+	})
+
+
+/*
+		var forms = document.getElementsByClassName('needs-validation');
+		// Loop over them and prevent submission
+		var validation = Array.prototype.filter.call(forms, function (form) {
+			form.addEventListener('submit', function (event) {
+				// console.log(event.target)
+				if (form.checkValidity() === false) {
+					event.preventDefault();
+					event.stopPropagation();
+				} 
+				{% comment %} else {
+
+				}  {% endcomment %}
+				form.classList.add('was-validated');
+			}, false);
+		}); */
+
+		function checkTaskType(selectedType){
+			
+
+			if(selectedType === 'Incident'){
+				$('.incidentBox').show()
+				$('.shiftBox').css("display", "none");
+				$('.datetimepicker-input').attr("required", true);
+
+			}else{
+				$('.incidentBox').css("display", "none");
+				$('.shiftBox').show()
+				$('.datetimepicker-input').removeAttr('required')
+
+			}
+		}
+
+		checkTaskType($('#id_type').val());
+		
+		$('#id_type').on('change', function(){
+
+			var selectedType = $(this).find(":selected").val()
+			checkTaskType(selectedType)
+		}) 
+
+		$('#id_type').on('click', function(){
+
+			var selectedType = $(this).find(":selected").val()
+			checkTaskType(selectedType)
+		}) 
+	}) 
+</script>
+
+{% endblock javascripts %}
